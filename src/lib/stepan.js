@@ -1,7 +1,11 @@
+import StepanError from './stepanError.js';
 
 export default class Stepan {
   static createElement(element, parent, attributes = {}) {
-    // TODO: check if this is a valid tag name
+    // TODO: check if this is a valid tag name +
+    if (document.createElement(element).toString() === "[object HTMLUnknownElement]") {
+        throw new StepanError('Invalid tag name.');
+    }
     const newElement = document.createElement(element);
 
     const { innerHTML, innerText } = attributes;
@@ -25,9 +29,11 @@ export default class Stepan {
   static Component = class {
     constructor(parent) {
 
-      // TODO: 1. Create StepanError class to define all framework errors
-      //       2. throw an error if parent is null or undefined, or if it's not a valid DOM object
-
+      // TODO: 1. Create StepanError class to define all framework errors +
+      //       2. throw an error if parent is null or undefined, or if it's not a valid DOM object +
+      if (!parent || !(parent instanceof Element)) {
+        throw new StepanError('Parent not a valid DOM object')
+      }
       this.parent = parent;
     }
 
